@@ -1,0 +1,39 @@
+version: "3.3"
+services:
+  employee_db:
+    container_name: employee_db
+    restart: always
+    build: ./postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+  employee_service:
+    container_name: employee_service
+    restart: always
+    build: ./employee_service
+    links:
+      - employee_db:employee_db
+    depends_on:
+      - employee_db
+    entrypoint: "bash -lc '/wait-for-it.sh employee_db && /entry_point.sh'"
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+  employee_camunda_service:
+    container_name: employee_camunda_service
+    restart: always
+    build: ./employee_camunda_service
+    links:
+      - employee_db:employee_db
+    depends_on:
+      - employee_db
+    entrypoint: "bash -lc '/wait-for-it.sh employee_db && /entry_point.sh'"
+    ports:
+      - "9090:8080"
+    networks:
+      - my-network
+networks:
+  my-network:
+    driver: bridge

@@ -1,0 +1,32 @@
+camunda.bpm:
+  admin-user:
+    id: admin
+    password: admin
+    firstName: admin
+  filter:
+    create: All tasks
+  database:
+    type: postgres
+  authorization:
+     enabled: false
+  generic-properties.properties:
+    telemetry-reporter-activate: false
+spring: 
+  datasource:
+    url: jdbc:postgresql://employee_db:5432/employee_camunda 
+    username: workmotion
+    password: workmotion  
+    driver-class-name: org.postgresql.Driver    
+  jpa: 
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties.hibernate.jdbc.lob.non_contextual_creation: true
+    generate-ddl: false
+    hibernate.ddl-auto: update
+    show-sql: true
+  flyway: 
+    enabled: true
+    url: jdbc:postgresql://employee_db:5432/employee_camunda
+    user: workmotion
+    password: workmotion
+    locations: classpath:db/migration
+    baselineOnMigrate: true

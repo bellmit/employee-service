@@ -1,0 +1,28 @@
+spring: 
+  jmx.enabled: false
+  profiles.active: test
+  application: 
+    name: Employee Management Test
+  main: 
+    banner-mode: "OFF"
+  datasource:
+    url: jdbc:h2:mem:employee;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
+    username: workmotion
+    password: workmotion 
+    driver-class-name: org.h2.Driver
+  jpa: 
+    hibernate: 
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+    show-sql: true
+  flyway: 
+    enabled: true
+    url: jdbc:h2:mem:employee;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
+    user: workmotion
+    password: workmotion
+    locations: classpath:db/migration
+    baselineOnMigrate: true
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false

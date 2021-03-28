@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:collaboration id="Collaboration_1wmyive">
+    <bpmn:participant id="Participant_0vdy2aw" name="Employee Management" processRef="employee_management_process" />
+  </bpmn:collaboration>
+  <bpmn:process id="employee_management_process" name="employee_management_process" isExecutable="true" camunda:versionTag="2">
+    <bpmn:userTask id="employee-add" name="Employee Added" camunda:candidateUsers="demo">
+      <bpmn:extensionElements>
+        <camunda:taskListener delegateExpression="${employeeAddedDelegate}" event="complete" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1fp17al</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_16gzt2m</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_080fn8i">
+        <bpmn:targetRef>DataStoreReference_0fv1r2a</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_0x6ir2l">
+      <bpmn:incoming>Flow_1gc6xrq</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_1fp17al</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="employee-check" name="Employee In Check">
+      <bpmn:extensionElements>
+        <camunda:taskListener delegateExpression="${employeeCheckedDelegate}" event="complete" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_16gzt2m</bpmn:incoming>
+      <bpmn:outgoing>Flow_14tcuw2</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1nv92hb">
+        <bpmn:targetRef>DataStoreReference_08uuvt8</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:userTask id="employee-approve" name="Employee Approve">
+      <bpmn:extensionElements>
+        <camunda:taskListener delegateExpression="${employeeApprovedDelegate}" event="complete" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_14tcuw2</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gc6xrq</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_0fwrbor">
+        <bpmn:targetRef>DataStoreReference_1viiyng</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:dataStoreReference id="DataStoreReference_0fv1r2a" name="employee_db" />
+    <bpmn:dataStoreReference id="DataStoreReference_08uuvt8" name="employee_db" />
+    <bpmn:dataStoreReference id="DataStoreReference_1viiyng" name="employee_db" />
+    <bpmn:sequenceFlow id="Flow_1gc6xrq" sourceRef="employee-approve" targetRef="EndEvent_0x6ir2l" />
+    <bpmn:sequenceFlow id="Flow_14tcuw2" sourceRef="employee-check" targetRef="employee-approve" />
+    <bpmn:sequenceFlow id="SequenceFlow_1fp17al" sourceRef="StartEvent_1" targetRef="employee-add" />
+    <bpmn:sequenceFlow id="SequenceFlow_16gzt2m" sourceRef="employee-add" targetRef="employee-check" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1wmyive">
+      <bpmndi:BPMNShape id="Participant_0vdy2aw_di" bpmnElement="Participant_0vdy2aw" isHorizontal="true">
+        <dc:Bounds x="129" y="80" width="911" height="350" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1gc6xrq_di" bpmnElement="Flow_1gc6xrq">
+        <di:waypoint x="720" y="240" />
+        <di:waypoint x="792" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14tcuw2_di" bpmnElement="Flow_14tcuw2">
+        <di:waypoint x="560" y="240" />
+        <di:waypoint x="620" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1fp17al_di" bpmnElement="SequenceFlow_1fp17al">
+        <di:waypoint x="228" y="240" />
+        <di:waypoint x="300" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_16gzt2m_di" bpmnElement="SequenceFlow_16gzt2m">
+        <di:waypoint x="400" y="240" />
+        <di:waypoint x="460" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_08mft2c_di" bpmnElement="employee-add">
+        <dc:Bounds x="300" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0x6ir2l_di" bpmnElement="EndEvent_0x6ir2l">
+        <dc:Bounds x="792" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="192" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rbh19q_di" bpmnElement="employee-check">
+        <dc:Bounds x="460" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0w7alii_di" bpmnElement="employee-approve">
+        <dc:Bounds x="620" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_0fv1r2a_di" bpmnElement="DataStoreReference_0fv1r2a">
+        <dc:Bounds x="325" y="345" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="317" y="402" width="67" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_08uuvt8_di" bpmnElement="DataStoreReference_08uuvt8">
+        <dc:Bounds x="485" y="345" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="477" y="402" width="67" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_1viiyng_di" bpmnElement="DataStoreReference_1viiyng">
+        <dc:Bounds x="645" y="345" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="637" y="402" width="67" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_080fn8i_di" bpmnElement="DataOutputAssociation_080fn8i">
+        <di:waypoint x="352" y="280" />
+        <di:waypoint x="354" y="345" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1nv92hb_di" bpmnElement="DataOutputAssociation_1nv92hb">
+        <di:waypoint x="510" y="280" />
+        <di:waypoint x="510" y="345" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0fwrbor_di" bpmnElement="DataOutputAssociation_0fwrbor">
+        <di:waypoint x="670" y="280" />
+        <di:waypoint x="670" y="345" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
